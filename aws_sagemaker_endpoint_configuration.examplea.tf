@@ -15,5 +15,3 @@ resource "aws_sagemaker_endpoint_configuration" "examplea" {
 resource "aws_kms_key" "examplea" {
   enable_key_rotation = true
 }
-
-
