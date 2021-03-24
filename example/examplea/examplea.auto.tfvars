@@ -1,2 +1,4 @@
 common_tags = {
-"createby" = "Terraform" }
+  createdby = "Terraform"
+  module    = "terraform-aws-sagemaker"
+}
