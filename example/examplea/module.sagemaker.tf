@@ -5,7 +5,7 @@ module "sagemaker" {
 }
 
 data "aws_iam_policy_document" "sagemaker" {
-#checkov:skip=CKV_AWS_109:example only
+  #checkov:skip=CKV_AWS_109:example only
   version = "2012-10-17"
   statement {
     effect    = "Allow"
