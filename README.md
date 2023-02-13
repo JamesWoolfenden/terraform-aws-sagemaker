@@ -1,6 +1,6 @@
 # terraform-aws-sagemaker
 
-[![Build Status](https://github.com/JamesWoolfenden/terraform-aws-sagemaker/workflows/Verify%20and%20Bump/badge.svg?branch=main)](https://github.com/JamesWoolfenden/terraform-aws-sagemaker)
+[![Build Status](https://github.com/JamesWoolfenden/terraform-aws-sagemaker/workflows/Verify/badge.svg?branch=main)](https://github.com/JamesWoolfenden/terraform-aws-sagemaker)
 [![Latest Release](https://img.shields.io/github/release/JamesWoolfenden/terraform-aws-sagemaker.svg)](https://github.com/JamesWoolfenden/terraform-aws-sagemaker/releases/latest)
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/JamesWoolfenden/terraform-aws-sagemaker.svg?label=latest)](https://github.com/JamesWoolfenden/terraform-aws-sagemaker/releases/latest)
 ![Terraform Version](https://img.shields.io/badge/tf-%3E%3D0.14.0-blue.svg)
@@ -24,14 +24,14 @@ $ checkov -d . --external-checks-dir checkov
 ...
 ```
 
-![alt text](./diagram/alb.png)
 
-Include **module.alb.tf** this repository as a module in your existing terraform code:
+Include **module.sagemaker.tf** this repository as a module in your existing terraform code:
 
 ```terraform
 module "sagemaker" {
   source        = "JamesWoolfenden/sagemaker/aws"
-  version       = "0.0.1"
+  version       = "0.0.2"
+  policy        = jsonencode(var.policy)
 }
 ```
 
@@ -55,6 +55,7 @@ No modules.
 | Name | Type |
 |------|------|
 | [aws_iam_role.examplea](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
+| [aws_iam_role_policy.examplea](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
 | [aws_kms_key.examplea](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_key) | resource |
 | [aws_sagemaker_endpoint_configuration.examplea](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sagemaker_endpoint_configuration) | resource |
 | [aws_sagemaker_model.examplea](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sagemaker_model) | resource |
@@ -65,6 +66,9 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_common_tags"></a> [common\_tags](#input\_common\_tags) | This is to help you add tags to your cloud objects | `map(any)` | n/a | yes |
+| <a name="input_endpoint"></a> [endpoint](#input\_endpoint) | Endpoint settings | <pre>object({<br>    name = string<br>    variant = list(object({<br>      name  = string<br>      count = number<br>      type  = string<br>    }))<br>  })</pre> | <pre>{<br>  "name": "my-endpoint-config",<br>  "variant": [<br>    {<br>      "count": 1,<br>      "name": "variant-1",<br>      "type": "ml.t2.medium"<br>    }<br>  ]<br>}</pre> | no |
+| <a name="input_policy"></a> [policy](#input\_policy) | Least privilege policy | `string` | n/a | yes |
+| <a name="input_role_name"></a> [role\_name](#input\_role\_name) | n/a | `string` | `"sagemaker"` | no |
 
 ## Outputs
 
@@ -89,17 +93,34 @@ resource "aws_iam_policy" "terraform_pike" {
             "Sid": "VisualEditor0",
             "Effect": "Allow",
             "Action": [
-                "iam:CreateRole",
-                "iam:DeleteRole",
-                "iam:GetRole",
-                "iam:ListAttachedRolePolicies",
-                "iam:ListInstanceProfilesForRole",
-                "iam:ListRolePolicies"
+                "ec2:DescribeAccountAttributes"
             ],
-            "Resource": "*"
+            "Resource": [
+                "*"
+            ]
         },
         {
             "Sid": "VisualEditor1",
+            "Effect": "Allow",
+            "Action": [
+                "iam:CreateRole",
+                "iam:DeleteRole",
+                "iam:DeleteRolePolicy",
+                "iam:GetRole",
+                "iam:GetRolePolicy",
+                "iam:ListAttachedRolePolicies",
+                "iam:ListInstanceProfilesForRole",
+                "iam:ListRolePolicies",
+                "iam:PassRole",
+                "iam:PutRolePolicy",
+                "iam:TagRole"
+            ],
+            "Resource": [
+                "*"
+            ]
+        },
+        {
+            "Sid": "VisualEditor2",
             "Effect": "Allow",
             "Action": [
                 "kms:CreateKey",
@@ -108,9 +129,31 @@ resource "aws_iam_policy" "terraform_pike" {
                 "kms:GetKeyPolicy",
                 "kms:GetKeyRotationStatus",
                 "kms:ListResourceTags",
-                "kms:ScheduleKeyDeletion"
+                "kms:ScheduleKeyDeletion",
+                "kms:TagResource",
+                "kms:UntagResource"
             ],
-            "Resource": "*"
+            "Resource": [
+                "*"
+            ]
+        },
+        {
+            "Sid": "VisualEditor3",
+            "Effect": "Allow",
+            "Action": [
+                "sagemaker:AddTags",
+                "sagemaker:CreateEndpointConfig",
+                "sagemaker:CreateModel",
+                "sagemaker:DeleteEndpointConfig",
+                "sagemaker:DeleteModel",
+                "sagemaker:DeleteTags",
+                "sagemaker:DescribeEndpointConfig",
+                "sagemaker:DescribeModel",
+                "sagemaker:ListTags"
+            ],
+            "Resource": [
+                "*"
+            ]
         }
     ]
 })
