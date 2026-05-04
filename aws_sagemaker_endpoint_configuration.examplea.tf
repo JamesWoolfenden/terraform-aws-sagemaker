@@ -15,6 +15,7 @@ resource "aws_sagemaker_endpoint_configuration" "examplea" {
 }
 
 resource "aws_kms_key" "examplea" {
+  # checkov:skip=CKV2_AWS_64: For example only, key policy managed via IAM
   enable_key_rotation = true
   tags                = var.common_tags
 }
