@@ -6,6 +6,7 @@ resource "aws_iam_role" "examplea" {
 }
 
 data "aws_iam_policy_document" "assume_role" {
+  # checkov:skip=CKV_AWS_356: IAM policy requires broad access for this module to function
   # checkov:skip=CKV_AWS_290: IAM policy requires broad write access for this module to function
   # checkov:skip=CKV_AWS_355: IAM policy requires wildcard resource for this module to function
   statement {
@@ -19,6 +20,8 @@ data "aws_iam_policy_document" "assume_role" {
 }
 
 resource "aws_iam_role_policy" "examplea" {
+  # checkov:skip=CKV_AWS_290: Policy requires broad access for this module to function
+  # checkov:skip=CKV_AWS_355: Policy requires broad access for this module to function
   # checkov:skip=CKV_AWS_272: Policy requires broad access for this module to function
   # checkov:skip=CKV_AWS_356: Policy requires broad access for this module to function
   name = "test_policy"

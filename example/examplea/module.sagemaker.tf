@@ -5,6 +5,7 @@ module "sagemaker" {
 }
 
 data "aws_iam_policy_document" "sagemaker" {
+  # checkov:skip=CKV_AWS_356: IAM policy requires broad access for this module to function
   # checkov:skip=CKV_AWS_290: IAM policy requires broad write access for this module to function
   # checkov:skip=CKV_AWS_355: IAM policy requires wildcard resource for this module to function
   #checkov:skip=CKV_AWS_109:example only
