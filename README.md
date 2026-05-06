@@ -4,10 +4,8 @@
 [![Latest Release](https://img.shields.io/github/release/JamesWoolfenden/terraform-aws-sagemaker.svg)](https://github.com/JamesWoolfenden/terraform-aws-sagemaker/releases/latest)
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/JamesWoolfenden/terraform-aws-sagemaker.svg?label=latest)](https://github.com/JamesWoolfenden/terraform-aws-sagemaker/releases/latest)
 ![Terraform Version](https://img.shields.io/badge/tf-%3E%3D0.14.0-blue.svg)
-[![Infrastructure Tests](https://www.bridgecrew.cloud/badges/github/JamesWoolfenden/terraform-aws-sagemaker/cis_aws)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=JamesWoolfenden%2Fterraform-aws-sagemaker&benchmark=CIS+AWS+V1.2)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![checkov](https://img.shields.io/badge/checkov-verified-brightgreen)](https://www.checkov.io/)
-[![Infrastructure Tests](https://www.bridgecrew.cloud/badges/github/jameswoolfenden/terraform-aws-sagemaker/general)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=JamesWoolfenden%2Fterraform-aws-sagemaker&benchmark=INFRASTRUCTURE+SECURITY)
 
 Terraform module -
 
@@ -43,7 +41,7 @@ No requirements.
 ## Providers
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
 
 ## Modules
@@ -53,7 +51,7 @@ No modules.
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [aws_iam_role.examplea](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role_policy.examplea](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
 | [aws_kms_key.examplea](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_key) | resource |
@@ -64,9 +62,9 @@ No modules.
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_common_tags"></a> [common\_tags](#input\_common\_tags) | This is to help you add tags to your cloud objects | `map(any)` | n/a | yes |
-| <a name="input_endpoint"></a> [endpoint](#input\_endpoint) | Endpoint settings | <pre>object({<br>    name = string<br>    variant = list(object({<br>      name  = string<br>      count = number<br>      type  = string<br>    }))<br>  })</pre> | <pre>{<br>  "name": "my-endpoint-config",<br>  "variant": [<br>    {<br>      "count": 1,<br>      "name": "variant-1",<br>      "type": "ml.t2.medium"<br>    }<br>  ]<br>}</pre> | no |
+| <a name="input_endpoint"></a> [endpoint](#input\_endpoint) | Endpoint settings | <pre>object({<br/>    name = string<br/>    variant = list(object({<br/>      name  = string<br/>      count = number<br/>      type  = string<br/>    }))<br/>  })</pre> | <pre>{<br/>  "name": "my-endpoint-config",<br/>  "variant": [<br/>    {<br/>      "count": 1,<br/>      "name": "variant-1",<br/>      "type": "ml.t2.medium"<br/>    }<br/>  ]<br/>}</pre> | no |
 | <a name="input_policy"></a> [policy](#input\_policy) | Least privilege policy | `string` | n/a | yes |
 | <a name="input_role_name"></a> [role\_name](#input\_role\_name) | n/a | `string` | `"sagemaker"` | no |
 
